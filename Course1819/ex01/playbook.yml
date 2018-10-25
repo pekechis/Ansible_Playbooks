@@ -1,0 +1,17 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: Instalar Apache
+      apt: name=apache2 state=present update_cache=yes
+    - name: Instalar MySQL
+      apt: name=mysql-server state= update_cache=yes
+    - name: Comprobar que los servicios están funcionando
+      service: name={{item}} state=started
+      with_items:
+        - apache2
+        - mysql
+    - name: Crear el usuario Pepe en MySQL con los permisos adecuados
+      mysql_user:
+        name: pepe
+        password: 123456
+        priv: "*.*.ALL"

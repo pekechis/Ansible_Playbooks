@@ -1,0 +1,19 @@
+#----------------
+# Lista de Hosts
+#----------------
+- hosts: all
+  become: true
+  #----------------
+  #Lista de Tareas
+  #----------------
+  tasks:
+    - name: Instalación del SQUID
+      apt:
+        update_cache: yes
+        name: squid
+        state: present
+    - name: Instalo el htpasswd por que lo voy a usar para crear contraseñas para el script
+      apt:
+        update_cache: yes
+        name: apache2-utils
+        state: present
