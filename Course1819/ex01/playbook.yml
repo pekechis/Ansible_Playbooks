@@ -2,16 +2,27 @@
   become: true
   tasks:
     - name: Instalar Apache
-      apt: name=apache2 state=present update_cache=yes
+      apt:
+          update_cache: yes 
+          name: apache2           
+          state: present
     - name: Instalar MySQL con sus dependencias
-      apt: name={{item}} state=present update_cache=yes
-      with_items:
-        - mysql-server-5.6
-        - python-mysqldb
+      apt:
+          update_cache: yes
+          name: {{item}}
+          state: present 
+          with_items:
+          - mysql-server-5.7
+          - python-pymysql
     - name: Comprobar que los servicios están funcionando
-      service: name={{item}} state=started
-      with_items:
-        - apache2
-        - mysql
+      service:
+          name: {{item}}
+          state: started          
+          with_items:
+            - apache2
+            - mysql
     - name: Crear el usuario Pepe en MySQL con los permisos adecuados
-      mysql_user: name=pepe   password=123456  priv="*.*:ALL"
+      mysql_user:
+          name: pepe
+          password: 123456
+          priv: *.*.ALL
