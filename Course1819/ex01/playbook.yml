@@ -19,14 +19,26 @@
       with_items:
         - apache2
         - libapache2-mod-php5
+    - name: Configuro el paquete MySQL-I
+      debconf:
+        name: mysql-server
+        value: root
+        question: mysql-server/root-password
+        vtype: password
+    - name: Configuro el paquete MySQL-II
+      debconf:
+        name: mysql-server
+        value: root
+        question: mysql-server/root-password-again
+        vtype: password
     - name: Instalar MySQL con sus dependencias
       apt:
         update_cache: yes
         name: "{{ item }}"
         state: present
       with_items:
-        - mysql-server
         - python-mysqldb
+        - mysql-server
     - name: Comprobar que los servicios están funcionando
       service:
         name: "{{ item }}"
